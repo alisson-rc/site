@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Encantos Íntimos</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <script defer src="script.js"></script>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-container">
+    <div class="logo">Encantos Íntimos</div>
+    
+    <button class="menu-btn" aria-label="Abrir Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="nav-menu">
+      <a href="#">Início</a>
+      <a href="#">Sutiãs</a>
+      <a href="#">Calcinhas</a>
+      <a href="#">Conjuntos</a>
+      <a href="#">Promoções</a>
+      <a href="#">Contato</a>
+    </nav>
+  </div>
+</header>
+
+<section class="banner-wrapper">
+  <div class="banner-carousel">
+    
+    <div class="banner-slide">
+      <div class="banner">
+        <div class="banner-texto">
+          <h1>Novidades em Bordô!</h1>
+          <p>Conheça a Coleção Outono</p>
+          <a class="btn-banner" href="#">Ver Coleção Agora</a>
+        </div>
+        <div class="banner-img">
+          <img src="https://via.placeholder.com/900x360/6a2a32/ffffff?text=Banner+1" alt="Banner 1">
+        </div>
+      </div>
+    </div>
+
+    <div class="banner-slide">
+      <div class="banner">
+        <div class="banner-texto">
+          <h1>Lançamento: Linha Luxo</h1>
+          <p>Deslumbre-se com a elegância</p>
+          <a class="btn-banner" href="#">Compre Agora</a>
+        </div>
+        <div class="banner-img">
+          <img src="https://via.placeholder.com/900x360/4b0f1f/ffffff?text=Banner+2" alt="Banner 2">
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+  <button class="carousel-control prev">&lt;</button>
+  <button class="carousel-control next">&gt;</button>
+
+  <div class="carousel-indicators">
+    </div>
+</section>
+
+<h2 class="sec-titulo">— Destaques da Semana —</h2>
+
+<div id="lista-produtos" class="grid-produtos"></div>
+
+<div id="carrinho-flutuante" class="carrinho">
+  <h3>Seu Carrinho</h3>
+  <div id="itens-carrinho"></div>
+  <p class="total">
+    Total: R$ <span id="total-carrinho">0,00</span>
+  </p>
+  <button id="btn-whats" class="btn-whats">Finalizar Pedido no WhatsApp</button>
+</div>
+
+<div id="produto-modal" class="modal-overlay">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <div id="modal-body">
+      </div>
+  </div>
+</div>
+
+</body>
+</html>

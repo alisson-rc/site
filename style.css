@@ -1,0 +1,506 @@
+/* reset simples */
+*{box-sizing:border-box}
+body {
+  margin: 0;
+  font-family: 'Lato', sans-serif; /* Fonte principal para o corpo */
+  background: #fdfdfd; /* Fundo mais claro */
+  color: #333333; /* Cor de texto geral mais escura */
+}
+
+/* --- TOPO E MENU --- */
+.topo {
+  background: #6a2a32; /* Cor mais escura para o topo */
+  color: white;
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra suave no topo */
+}
+
+/* Container para limitar a largura do conteúdo do topo */
+.topo-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topo .logo{
+  font-family: 'Playfair Display', serif; /* Fonte do logo */
+  font-weight: 700; 
+  font-size: 1.6rem; /* Aumentei um pouco o logo */
+  text-transform: uppercase; /* Para o logo */
+  letter-spacing: 1px;
+}
+
+.nav-menu a {
+  color: white;
+  text-decoration: none;
+  margin-left: 25px; /* Mais espaço entre itens do menu */
+  font-weight: 400; /* Mais leve */
+  transition: color 0.2s;
+}
+.nav-menu a:hover {
+  color: #e0dada; /* Hover mais suave */
+}
+
+/* Botão Hamburger (escondido no desktop) */
+.menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+.menu-btn span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+
+/* --- BANNER (Objetivo 1: Centralizado e Limitado) --- */
+.banner-wrapper {
+  background: #f4ece6; /* Fundo estende a tela toda */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative; /* Para posicionar os controles do carrossel */
+  overflow: hidden; /* Garante que as imagens que saem do campo de visão fiquem escondidas */
+}
+
+/* CARROSSEL ADICIONADO AQUI */
+.banner-carousel {
+  display: flex;
+  width: 100%;
+  transition: transform 0.5s ease-in-out; /* Suaviza a transição do slide */
+}
+.banner-slide {
+  min-width: 100%; /* Cada slide ocupa 100% da largura do carrossel */
+  display: flex;
+  justify-content: center; /* Centraliza o conteúdo do slide */
+}
+/* FIM DO CARROSSEL */
+
+
+.banner {
+  max-width: 1200px; /* Limita a largura */
+  width: 100%;
+  padding: 40px 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  position: relative; /* Para posicionar o texto e imagem dentro do slide */
+}
+
+.banner-texto { flex: 1; z-index: 10; } /* Z-index para ficar acima da imagem */
+.banner-texto h1 { 
+  font-family: 'Playfair Display', serif; /* Fonte para o título do banner */
+  font-size: 48px; /* Aumentei um pouco */
+  margin: 0;
+  color: #6a2a32; /* Cor mais escura para o texto do banner */
+  line-height: 1.1;
+}
+.banner-texto p { 
+  font-size: 20px; 
+  margin-top: 10px; 
+  margin-bottom: 15px; 
+  color: #444;
+}
+.btn-banner {
+  display: inline-block;
+  padding: 14px 30px; /* Botão maior */
+  background: #6a2a32; /* Cor do botão do banner */
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: background 0.2s;
+}
+.btn-banner:hover {
+  background: #8f3b47;
+}
+
+/* Imagem responsiva dentro do banner */
+.banner-img { 
+  position: absolute; /* Posiciona a imagem por trás do texto */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Garante que a imagem fique atrás */
+  display: flex;
+  justify-content: flex-end; /* Alinha a imagem para a direita */
+  align-items: center;
+}
+.banner-img img {
+  width: 70%; /* Imagem ocupando 70% da largura do banner */
+  height: auto;
+  border-radius: 8px;
+  max-height: 360px;
+  object-fit: contain; /* Garante que a imagem seja contida sem cortar */
+  object-position: right center; /* Posiciona a imagem à direita */
+}
+
+/* Controles do Carrossel */
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.4);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  z-index: 101; /* Acima de tudo */
+  font-size: 24px;
+  line-height: 1;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.carousel-control.prev { left: 10px; }
+.carousel-control.next { right: 10px; }
+.carousel-control:hover { background: rgba(0,0,0,0.6); }
+
+/* Indicadores de slide (pontinhos) */
+.carousel-indicators {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 101;
+}
+.indicator {
+  width: 10px;
+  height: 10px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.indicator.active {
+  background: white;
+}
+
+
+/* --- PRODUTOS --- */
+.sec-titulo { 
+  text-align:center; 
+  margin-top: 40px; /* Mais espaçamento */
+  margin-bottom: 30px;
+  color:#6a2a32; /* Cor do título da seção */
+  font-family: 'Playfair Display', serif; /* Fonte para o título da seção */
+  font-size: 30px;
+  font-weight: 700;
+}
+.grid-produtos {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px; /* Mais espaçamento */
+  padding: 20px 40px 80px 40px;
+}
+.card {
+  background: #ffffff; /* Fundo branco */
+  border: 1px solid #eeeeee; /* Borda mais suave */
+  border-radius: 10px; /* Bordas mais arredondadas */
+  padding: 15px; /* Mais padding */
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .12s ease, box-shadow .12s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  cursor: pointer;
+}
+.card:hover {
+  transform: translateY(-8px); /* Mais efeito */
+  box-shadow: 0 12px 28px rgba(0,0,0,0.09); /* Sombra mais pronunciada */
+}
+.card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.card h3 { 
+  margin: 8px 0 0 0; 
+  font-size: 19px; 
+  font-family: 'Playfair Display', serif; /* Fonte para o nome do produto */
+  color: #333;
+}
+.card p.price { 
+  margin: 6px 0 10px 0; 
+  font-weight: 700; 
+  color:#6a2a32; /* Cor do preço */
+  font-size: 17px;
+}
+.card .btn-add {
+  background: #6a2a32; /* Cor do botão */
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  width: 100%;
+  transition: background 0.2s;
+}
+.card .btn-add:hover {
+  background: #8f3b47;
+}
+.card .btn-add:active{ transform: scale(.98) }
+
+/* --- CARRINHO FLUTUANTE --- */
+.carrinho {
+  position: fixed;
+  right: 20px;
+  top: 100px; /* Posição ajustada */
+  background: #ffffff; /* Fundo branco */
+  width: 300px; /* Largura um pouco maior */
+  border-radius: 12px; /* Bordas mais arredondadas */
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15); /* Sombra mais suave */
+  padding: 20px; /* Mais padding */
+  border: 1px solid #eeeeee;
+  z-index: 90;
+  font-size: 15px;
+}
+.carrinho h3 { 
+  margin: 0 0 15px 0; 
+  color: #6a2a32; /* Cor do título do carrinho */
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+}
+.item-carrinho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Alinha verticalmente */
+  margin-bottom: 10px;
+  border-bottom: 1px dashed #dddddd; /* Linha mais suave */
+  padding-bottom: 8px;
+}
+.item-carrinho small { display:block; color:#777; font-size: 13px; }
+.item-carrinho span.remove { 
+  color: #999; 
+  cursor: pointer; 
+  font-weight: bold; 
+  font-size: 18px;
+  transition: color 0.2s;
+}
+.item-carrinho span.remove:hover { color: #cc0000; }
+.total { 
+  font-weight: 700; 
+  margin-top: 15px; 
+  font-size: 18px;
+  color: #6a2a32;
+}
+.btn-whats {
+  background: #6a2a32;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-top: 15px;
+  font-weight: 700;
+  transition: background 0.2s;
+}
+.btn-whats:hover {
+  background: #8f3b47;
+}
+
+/* --- MODAL (Objetivo 2) --- */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  z-index: 200;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7); /* Fundo mais escuro */
+  backdrop-filter: blur(8px); /* Blur mais forte */
+}
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 25px; /* Mais padding */
+  border: none; /* Removi a borda */
+  width: 90%;
+  max-width: 900px; /* Max-width maior para o produto */
+  border-radius: 12px; /* Bordas mais arredondadas */
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2); /* Sombra mais suave */
+}
+.modal-close {
+  color: #888;
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 32px; /* Ícone de fechar maior */
+  font-weight: normal; /* Mais leve */
+  cursor: pointer;
+}
+.modal-close:hover { color: #333; }
+
+/* Estilo básico para o conteúdo injetado no modal */
+#modal-body img { max-width: 100%; height: auto; border-radius: 8px; }
+#modal-body h1 { margin-top: 0; color: #4b0f1f; }
+
+
+/* --- ESTILO INTERNO DO MODAL DE PRODUTO --- */
+.modal-wrapper {
+  display: flex;
+  gap: 40px; /* Mais espaço entre as colunas */
+  align-items: flex-start;
+}
+.modal-img-col { flex: 1; }
+.modal-img-col img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px; /* Mais arredondado */
+  object-fit: cover;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12); /* Sombra um pouco maior */
+}
+.modal-info-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Mais espaço entre os elementos */
+}
+.modal-info-col h1 {
+  font-family: 'Playfair Display', serif; /* Fonte para o título do produto no modal */
+  font-size: 34px; /* Título maior */
+  color: #6a2a32;
+  margin: 0;
+  line-height: 1.2;
+}
+.modal-price {
+  font-size: 28px; /* Preço maior */
+  font-weight: bold;
+  color: #6a2a32;
+}
+.modal-desc {
+  font-size: 17px; /* Descrição um pouco maior */
+  line-height: 1.7;
+  color: #444;
+}
+.btn-comprar-modal {
+  background: #6a2a32;
+  color: white;
+  border: none;
+  padding: 16px 25px; /* Botão maior */
+  font-size: 19px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 15px;
+  width: 100%;
+}
+.btn-comprar-modal:hover {
+  background: #8f3b47;
+}
+
+/* --- ESTILO PARA MINIATURAS DE PRODUTO NO MODAL --- */
+.product-thumbnails {
+  display: flex;
+  gap: 12px; /* Mais espaço entre miniaturas */
+  margin-top: 18px; /* Mais espaço acima */
+  overflow-x: auto;
+  padding-bottom: 5px;
+  -webkit-overflow-scrolling: touch;
+}
+.product-thumbnails::-webkit-scrollbar { height: 8px; } /* Scrollbar mais grosso */
+.product-thumbnails::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 10px; }
+.product-thumbnails::-webkit-scrollbar-thumb { background: #b0b0b0; border-radius: 10px; }
+.product-thumbnails::-webkit-scrollbar-thumb:hover { background: #999999; }
+
+.product-thumbnails img {
+  width: 90px; /* Miniatura um pouco maior */
+  height: 90px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s, transform 0.1s;
+}
+.product-thumbnails img:hover {
+  border-color: #8f3b47;
+  transform: translateY(-3px);
+}
+.product-thumbnails img.active {
+  border-color: #6a2a32; /* Borda destacada com a cor principal */
+  box-shadow: 0 0 0 3px rgba(106, 42, 50, 0.3); /* Brilho mais visível */
+}
+
+/* Ajuste para o padding do modal para não cortar o scrollbar das miniaturas */
+.modal-content { padding-bottom: 30px; }
+
+
+/* --- RESPONSIVIDADE (Objetivo 3) --- */
+@media (max-width: 800px) {
+  .menu-btn { display: flex; }
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: #6a2a32; /* Mesma cor do topo */
+    flex-direction: column;
+    padding: 20px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  .nav-menu.active { display: flex; }
+  .nav-menu a {
+    margin: 0;
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    width: 100%;
+    display: block;
+  }
+
+  .banner { flex-direction: column; padding: 24px; text-align: center; }
+  .banner-texto h1 { font-size: 38px; }
+  .banner-texto p { font-size: 18px; }
+  .banner-img { position: relative; width: 100%; height: auto; margin-top: 20px; }
+  .banner-img img { width: 100%; object-position: center; }
+
+  /* Controles do carrossel no mobile */
+  .carousel-control {
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+  }
+  .carousel-control.prev { left: 5px; }
+  .carousel-control.next { right: 5px; }
+  .carousel-indicators { bottom: 10px; }
+
+
+  .carrinho{ right:10px; left:10px; top:auto; bottom:20px; width:auto; }
+  
+  /* Modal de Produto no Mobile */
+  .modal-wrapper { flex-direction: column; gap: 20px; }
+  .modal-info-col h1 { font-size: 26px; }
+  .modal-price { font-size: 22px; }
+  .modal-desc { font-size: 15px; }
+  .btn-comprar-modal { padding: 12px 20px; font-size: 16px; }
+  .product-thumbnails img { width: 70px; height: 70px; }
+}

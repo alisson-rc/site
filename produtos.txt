@@ -1,0 +1,2 @@
+produtos/produto1.html
+produtos/produto2.html
