@@ -318,7 +318,7 @@ document.addEventListener("DOMContentLoaded", function() {
         mensagem += `*Total:* R$ ${total.toFixed(2).replace(".", ",")} %0A%0A`;
         mensagem += "Olá! Gostaria de finalizar meu pedido.";
 
-        const numero = "5599999999999"; 
+        const numero = "5548996896175"; 
         const url = `https://wa.me/${numero}?text=${mensagem}`;
         window.open(url, "_blank");
       });
@@ -327,4 +327,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // Inicializações
 carregarProdutos();
+
 atualizarCarrinho();
