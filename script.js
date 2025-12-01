@@ -305,7 +305,7 @@ document.addEventListener("DOMContentLoaded", function() {
           return;
         }
 
-        let mensagem = "*Pedido Encantos Íntimos*%0A";
+        let mensagem = "*Pedido Zabala Moda Íntima*%0A";
         mensagem += "-------------------------------%0A";
 
         let total = 0;
@@ -329,3 +329,4 @@ document.addEventListener("DOMContentLoaded", function() {
 carregarProdutos();
 
 atualizarCarrinho();
+
