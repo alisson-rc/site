@@ -23,12 +23,12 @@
     </button>
 
     <nav class="nav-menu">
-      <a href="#">Início</a>
-      <a href="#">Sutiãs</a>
-      <a href="#">Calcinhas</a>
-      <a href="#">Conjuntos</a>
-      <a href="#">Promoções</a>
-      <a href="#">Contato</a>
+      <a href="#" data-filter="todos">Início</a>
+      <a href="#" data-filter="sutias">Sutiãs</a>
+      <a href="#" data-filter="calcinhas">Calcinhas</a>
+      <a href="#" data-filter="conjuntos">Conjuntos</a>
+      <a href="#" data-filter="promocoes">Promoções</a>
+      <a href="https://wa.me/5548996896175">Contato</a>
     </nav>
   </div>
 </header>
@@ -76,12 +76,18 @@
 <div id="lista-produtos" class="grid-produtos"></div>
 
 <div id="carrinho-flutuante" class="carrinho">
+  <button id="fechar-carrinho" class="btn-toggle-carrinho" title="Minimizar">&times;</button>
   <h3>Seu Carrinho</h3>
   <div id="itens-carrinho"></div>
   <p class="total">
     Total: R$ <span id="total-carrinho">0,00</span>
   </p>
-  <button id="btn-whats" class="btn-whats">Finalizar Pedido no WhatsApp</button>
+  <button id="btn-whats" class="btn-whats">Finalizar no WhatsApp</button>
+</div>
+
+<div id="reabrir-carrinho" class="carrinho-aba" style="display: none;">
+  <span class="carrinho-icon">🛒</span>
+  <span id="carrinho-contador" class="contador-bolinha">0</span>
 </div>
 
 <div id="produto-modal" class="modal-overlay">

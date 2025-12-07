@@ -67,7 +67,8 @@ body {
 /* --- BANNER (Objetivo 1: Centralizado e Limitado) --- */
 .banner-wrapper {
   background: #f4ece6; /* Fundo estende a tela toda */
-  width: 85%;
+  width: 100%;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   position: relative; /* Para posicionar os controles do carrossel */
@@ -157,7 +158,7 @@ body {
   border: none;
   padding: 10px 15px;
   cursor: pointer;
-  z-index: 101; /* Acima de tudo */
+  z-index: 90; /* Acima de tudo */
   font-size: 24px;
   line-height: 1;
   border-radius: 50%;
@@ -277,6 +278,54 @@ body {
   border: 1px solid #eeeeee;
   z-index: 90;
   font-size: 15px;
+}
+/* Botão para minimizar dentro do painel */
+.btn-toggle-carrinho {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #6a2a32;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* Painel minimizado (escondido) */
+.carrinho.minimizado {
+  display: none;
+}
+
+/* Aba lateral para reabrir o carrinho */
+.carrinho-aba {
+  position: fixed;
+  right: 0;
+  top: 100px;
+  background: #6a2a32;
+  color: white;
+  padding: 12px 15px;
+  border-radius: 10px 0 0 10px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.carrinho-icon { font-size: 20px; }
+
+/* Bolinha de contador de itens */
+.contador-bolinha {
+  background: white;
+  color: #6a2a32;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  min-width: 18px;
+  text-align: center;
 }
 .carrinho h3 { 
   margin: 0 0 15px 0; 
