@@ -1,8 +1,7 @@
 // ---------------------------
-// 1. Menu Hambúrguer, Modal e Filtros
+// 1. Menu Hambúrguer, Modal, Filtros e Utilitários
 // ---------------------------
 document.addEventListener("DOMContentLoaded", () => {
-  // Menu Mobile
   const menuBtn = document.querySelector(".menu-btn");
   const navMenu = document.querySelector(".nav-menu");
 
@@ -12,39 +11,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Listener para Filtros do Menu
   const linksMenu = document.querySelectorAll(".nav-menu a[data-filter]");
   linksMenu.forEach(link => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
       const filtro = link.getAttribute("data-filter");
-      
-      // Feedback visual simples
       linksMenu.forEach(l => l.style.opacity = "0.7");
       link.style.opacity = "1";
-
-      carregarProdutos(filtro); // Recarrega a grid filtrada
+      carregarProdutos(filtro); 
       if (navMenu.classList.contains("active")) navMenu.classList.remove("active");
     });
   });
 
-  // Modal de Produto
   const modalClose = document.querySelector(".modal-close");
   const modal = document.getElementById("produto-modal");
   
   if (modalClose) {
-    modalClose.addEventListener("click", () => {
-      modal.style.display = "none";
-    });
+    modalClose.addEventListener("click", () => { modal.style.display = "none"; });
   }
   
   window.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      modal.style.display = "none";
-    }
+    if (e.target === modal) modal.style.display = "none";
   });
 
-  // Minimizar Carrinho
   const carrinhoPainel = document.getElementById("carrinho-flutuante");
   const carrinhoAba = document.getElementById("reabrir-carrinho");
   const btnMinimizar = document.getElementById("fechar-carrinho");
@@ -80,47 +69,34 @@ document.addEventListener("DOMContentLoaded", function() {
 
   function updateCarousel() {
     carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
-    updateIndicators();
-  }
-
-  function updateIndicators() {
     indicatorsContainer.innerHTML = ''; 
     slides.forEach((_, index) => {
       const indicator = document.createElement('div');
       indicator.classList.add('indicator');
-      if (index === currentIndex) {
-        indicator.classList.add('active');
-      }
-      indicator.addEventListener('click', () => {
-        currentIndex = index;
-        updateCarousel();
-      });
+      if (index === currentIndex) indicator.classList.add('active');
+      indicator.addEventListener('click', () => { currentIndex = index; updateCarousel(); });
       indicatorsContainer.appendChild(indicator);
     });
   }
 
-  if(prevBtn) {
-    prevBtn.addEventListener("click", () => {
-      currentIndex = (currentIndex === 0) ? slides.length - 1 : currentIndex - 1;
-      updateCarousel();
-    });
-  }
+  if(prevBtn) prevBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex === 0) ? slides.length - 1 : currentIndex - 1;
+    updateCarousel();
+  });
 
-  if(nextBtn) {
-    nextBtn.addEventListener("click", () => {
-      currentIndex = (currentIndex === slides.length - 1) ? 0 : currentIndex + 1;
-      updateCarousel();
-    });
-  }
+  if(nextBtn) nextBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex === slides.length - 1) ? 0 : currentIndex + 1;
+    updateCarousel();
+  });
 
-  let autoPlayInterval = setInterval(() => {
+  let autoPlay = setInterval(() => {
     currentIndex = (currentIndex === slides.length - 1) ? 0 : currentIndex + 1;
     updateCarousel();
   }, 5000);
 
-  carousel.parentElement.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+  carousel.parentElement.addEventListener('mouseenter', () => clearInterval(autoPlay));
   carousel.parentElement.addEventListener('mouseleave', () => {
-    autoPlayInterval = setInterval(() => {
+    autoPlay = setInterval(() => {
       currentIndex = (currentIndex === slides.length - 1) ? 0 : currentIndex + 1;
       updateCarousel();
     }, 5000);
@@ -130,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 // ---------------------------
-// 3. Carregamento de Produtos com Filtro
+// 3. Carregamento de Produtos
 // ---------------------------
 async function carregarProdutos(filtro = "todos") {
   try {
@@ -138,13 +114,12 @@ async function carregarProdutos(filtro = "todos") {
     const arquivos = lista.split("\n").map(l => l.trim()).filter(l => l !== "");
     const container = document.getElementById("lista-produtos");
 
-    container.innerHTML = ""; // Limpa a grid antes de aplicar o filtro
+    container.innerHTML = ""; 
 
     for (const arquivo of arquivos) {
       const html = await fetch(arquivo).then(r => r.text());
       const doc = new DOMParser().parseFromString(html, "text/html");
 
-      // Verificação das Tags
       const tagsMeta = doc.querySelector('meta[name="tags"]');
       const tags = tagsMeta ? tagsMeta.content.split(",").map(t => t.trim()) : [];
 
@@ -154,13 +129,31 @@ async function carregarProdutos(filtro = "todos") {
       const preco = doc.querySelector('meta[name="preco"]')?.content || "0,00";
       const imagem = doc.querySelector('meta[name="imagem"]')?.content || "";
 
+      const coresMeta = doc.querySelector('meta[name="cores_grid"]');
+      const cores = coresMeta ? coresMeta.content.split(",").map(c => c.trim()) : [];
+      
+      let swatchesHTML = "";
+      if (cores.length > 0) {
+          swatchesHTML = `<div class="card-swatches">`;
+          cores.slice(0, 3).forEach(cor => {
+              swatchesHTML += `<span class="swatch-grid" style="background-color: ${cor};"></span>`;
+          });
+          if (cores.length > 3) swatchesHTML += `<span class="swatch-plus">(+${cores.length - 3})</span>`;
+          swatchesHTML += `</div>`;
+      }
+
+      const estoqueMeta = doc.querySelector('meta[name="estoque"]');
+      const sobEncomenda = estoqueMeta ? estoqueMeta.content === "encomenda" : false;
+
+      let tarjaHTML = sobEncomenda ? `<div class="tarja-estoque">Sob Encomenda</div>` : "";
+
       const card = document.createElement("div");
       card.className = "card";
-      card.style.animation = "fadeIn 0.5s ease"; // Efeito suave
-      
       card.innerHTML = `
         <div class="card-top">
+          ${tarjaHTML}
           <img src="${imagem}" alt="${nome}">
+          ${swatchesHTML}
           <h3>${nome}</h3>
         </div>
         <p class="price">R$ ${preco}</p>
@@ -168,22 +161,18 @@ async function carregarProdutos(filtro = "todos") {
       `;
 
       container.appendChild(card);
-
-      const btn = card.querySelector(".btn-add");
-      btn.addEventListener("click", (e) => {
+      card.querySelector(".btn-add").addEventListener("click", (e) => {
         e.stopPropagation();
-        adicionarAoCarrinho(nome, preco);
+        const nomeFinal = sobEncomenda ? `${nome} (encomenda)` : nome;
+        adicionarAoCarrinho(nomeFinal, preco, "Padrão");
       });
-
       card.addEventListener("click", () => abrirModalProduto(arquivo, nome, preco));
     }
-  } catch (err) {
-    console.error("Erro ao carregar produtos:", err);
-  }
+  } catch (err) { console.error("Erro carregamento:", err); }
 }
 
 // ---------------------------
-// 4. Modal, Carrinho e WhatsApp
+// 4. Modal (Corrigido: Tarja Sob Encomenda dentro do Modal)
 // ---------------------------
 async function abrirModalProduto(url, nome, preco) {
   try {
@@ -197,68 +186,129 @@ async function abrirModalProduto(url, nome, preco) {
       modalBody.innerHTML = ""; 
       modalBody.appendChild(conteudoPrincipal); 
 
-      // Carrossel interno do produto
+      // DECLARAÇÃO DAS VARIÁVEIS DO MODAL
       const mainImage = modalBody.querySelector("#main-product-image");
-      const thumbnails = modalBody.querySelectorAll(".product-thumbnails .thumbnail");
+      const thumbnailsContainer = modalBody.querySelector(".product-thumbnails");
+      const imgCol = modalBody.querySelector(".modal-img-col"); 
 
-      if (mainImage && thumbnails.length > 0) {
-        thumbnails.forEach(thumbnail => {
-          thumbnail.addEventListener("click", () => {
-            thumbnails.forEach(t => t.classList.remove("active"));
-            thumbnail.classList.add("active");
-            mainImage.src = thumbnail.src;
-          });
+      const estoqueMeta = doc.querySelector('meta[name="estoque"]');
+      const isEncomenda = estoqueMeta ? estoqueMeta.content === "encomenda" : false;
+
+      // --- LOGICA DA TARJA NO MODAL ---
+      if (isEncomenda && imgCol) {
+        const tarjaModal = document.createElement("div");
+        tarjaModal.className = "tarja-estoque";
+        tarjaModal.innerText = "Sob Encomenda";
+        // Insere a tarja no topo da coluna de imagem
+        imgCol.style.position = "relative";
+        imgCol.insertBefore(tarjaModal, mainImage);
+      }
+
+      const galeriaMeta = doc.querySelector('meta[name="galeria"]');
+      const galeriaImagens = galeriaMeta ? galeriaMeta.content.split(",").map(src => src.trim()) : [];
+      
+      const tamanhosMeta = doc.querySelector('meta[name="opcoes_tamanho"]');
+      const tamanhos = tamanhosMeta ? tamanhosMeta.content.split(",").map(t => t.trim()) : [];
+
+      const coresMapMeta = doc.querySelector('meta[name="cores_map"]');
+      const coresMap = coresMapMeta ? JSON.parse(coresMapMeta.content) : [];
+
+      // Galeria Automática
+      if (mainImage) mainImage.src = galeriaImagens.length > 0 ? galeriaImagens[0] : "";
+      if (thumbnailsContainer && galeriaImagens.length > 0) {
+        thumbnailsContainer.innerHTML = "";
+        galeriaImagens.forEach((src, index) => {
+           const img = document.createElement("img");
+           img.src = src;
+           img.className = "thumbnail";
+           if (index === 0) img.classList.add("active");
+           img.addEventListener("click", () => {
+             modalBody.querySelectorAll(".thumbnail").forEach(t => t.classList.remove("active"));
+             img.classList.add("active");
+             if (mainImage) mainImage.src = src;
+           });
+           thumbnailsContainer.appendChild(img);
         });
       }
 
-      const btnInterno = modalBody.querySelector(".btn-comprar-modal");
-      if (btnInterno) {
-        btnInterno.addEventListener("click", () => {
-          adicionarAoCarrinho(nome, preco);
-          modal.style.display = "none"; 
+      // Seletores e Compra
+      const btnComprar = modalBody.querySelector(".btn-comprar-modal");
+      if (tamanhos.length > 0 || coresMap.length > 0) {
+          const divSeletores = document.createElement("div");
+          divSeletores.className = "modal-selectors";
+          let htmlSeletores = "";
+          if(tamanhos.length > 0) {
+              htmlSeletores += `<div class="selector-group"><label>Tamanho</label><select id="sel-tamanho" class="modal-select">${tamanhos.map(t => `<option value="${t}">${t}</option>`).join('')}</select></div>`;
+          }
+          if(coresMap.length > 0) {
+              htmlSeletores += `<div class="selector-group"><label>Cor</label><select id="sel-cor" class="modal-select">${coresMap.map(c => `<option value="${c.nome}" data-img="${c.img}">${c.nome}</option>`).join('')}</select></div>`;
+          }
+          divSeletores.innerHTML = htmlSeletores;
+          if(btnComprar) btnComprar.parentNode.insertBefore(divSeletores, btnComprar);
+      }
+
+      const selCor = modalBody.querySelector("#sel-cor");
+      if (selCor && mainImage) {
+          selCor.addEventListener("change", () => {
+              const opt = selCor.options[selCor.selectedIndex];
+              const novaImg = opt.getAttribute("data-img");
+              if (novaImg) {
+                  mainImage.src = novaImg;
+                  modalBody.querySelectorAll(".thumbnail").forEach(t => t.classList.remove("active"));
+              }
+          });
+      }
+
+      if (btnComprar) {
+        btnComprar.addEventListener("click", () => {
+          const selTam = modalBody.querySelector("#sel-tamanho");
+          const selCorSeletor = modalBody.querySelector("#sel-cor");
+          let detalhes = "";
+          if(selTam) detalhes += `Tam: ${selTam.value} `;
+          if(selCorSeletor) detalhes += `| Cor: ${selCorSeletor.value}`;
+          const nomeFinal = isEncomenda ? `${nome} (encomenda)` : nome;
+          adicionarAoCarrinho(nomeFinal, preco, detalhes.trim());
+          modal.style.display = "none";
         });
       }
       modal.style.display = "block";
     }
-  } catch (err) { console.error("Erro no modal:", err); }
+  } catch (err) { console.error("Erro modal:", err); }
 }
 
-function adicionarAoCarrinho(nome, preco) {
+// ---------------------------
+// 5. Carrinho e WhatsApp
+// ---------------------------
+function adicionarAoCarrinho(nome, preco, detalhes = "") {
   const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-  carrinho.push({ nome, preco });
+  const nomeFinal = detalhes && detalhes !== "Padrão" ? `${nome} (${detalhes})` : nome;
+  carrinho.push({ nome: nomeFinal, preco });
   localStorage.setItem("carrinho", JSON.stringify(carrinho));
   atualizarCarrinho();
+  alert("Produto adicionado!");
 }
 
 function atualizarCarrinho() {
   const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
   const lista = document.getElementById("itens-carrinho");
   if(!lista) return; 
-  
   lista.innerHTML = "";
   let total = 0;
-
   carrinho.forEach((item, index) => {
     const val = parseFloat(String(item.preco).replace(",", ".").replace(/[^\d\.]/g, "")) || 0;
     total += val;
-
+    const avisoEstoque = item.nome.includes("(encomenda)") ? `<small style="color: #6a2a32; display: block; font-weight: bold;">(Sob Encomenda)</small>` : "";
     const div = document.createElement("div");
     div.className = "item-carrinho";
-    div.innerHTML = `<div>${item.nome}<small>R$ ${item.preco}</small></div>
-                     <span class="remove" data-index="${index}">X</span>`;
+    div.innerHTML = `<div>${item.nome}${avisoEstoque}<small>R$ ${item.preco}</small></div><span class="remove" data-index="${index}">X</span>`;
     lista.appendChild(div);
   });
-
   const totalEl = document.getElementById("total-carrinho");
   if(totalEl) totalEl.innerText = total.toFixed(2).replace(".", ",");
-
   const contador = document.getElementById("carrinho-contador");
   if (contador) contador.innerText = carrinho.length;
-
   document.querySelectorAll(".item-carrinho .remove").forEach(el => {
-    el.addEventListener("click", function() {
-      removerItem(parseInt(this.getAttribute("data-index")));
-    });
+    el.addEventListener("click", function() { removerItem(parseInt(this.getAttribute("data-index"))); });
   });
 }
 
@@ -269,26 +319,31 @@ function removerItem(index) {
   atualizarCarrinho();
 }
 
-// Inicializações Globais
 document.addEventListener("DOMContentLoaded", () => {
     carregarProdutos();
     atualizarCarrinho();
-    
-    // Configuração WhatsApp
     const btnWhats = document.getElementById("btn-whats");
-    if(btnWhats) {
-        btnWhats.addEventListener("click", () => {
-            const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
-            if (carrinho.length === 0) return alert("Carrinho vazio!");
+    if (btnWhats) {
+      btnWhats.addEventListener("click", () => {
+        const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+        if (carrinho.length === 0) return alert("Carrinho vazio!");
 
-            let total = 0;
-            let msg = "*Pedido Zabala Moda Íntima*%0A---%0A";
-            carrinho.forEach(i => {
-                msg += `• ${i.nome} - R$ ${i.preco}%0A`;
-                total += parseFloat(String(i.preco).replace(",",".")) || 0;
-            });
-            msg += `---%0A*Total:* R$ ${total.toFixed(2).replace(".",",")}`;
-            window.open(`https://wa.me/5548996896175?text=${msg}`, "_blank");
+        let total = 0;
+        let msg = "*Pedido Zabala Moda Íntima*%0A";
+        msg += "-------------------------------%0A";
+
+        carrinho.forEach(item => {
+          const avisoEncomenda = item.nome.includes("(encomenda)") ? " [SOB ENCOMENDA]" : "";
+          msg += `• ${item.nome}${avisoEncomenda} — R$ ${item.preco}%0A`;
+          total += parseFloat(String(item.preco).replace(",", ".").replace(/[^\d\.]/g, "")) || 0;
         });
+
+        msg += "-------------------------------%0A";
+        msg += `*Total:* R$ ${total.toFixed(2).replace(".", ",")} %0A%0A`;
+        msg += "Olá! Gostaria de finalizar meu pedido.";
+
+        const numero = "5548996896175"; 
+        window.open(`https://wa.me/${numero}?text=${msg}`, "_blank");
+      });
     }
 });

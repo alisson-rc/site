@@ -1,2 +1,5 @@
+produtos/produto0.html
 produtos/produto1.html
 produtos/produto2.html
+produtos/produto3.html
+produtos/produto4.html

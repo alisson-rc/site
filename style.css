@@ -136,7 +136,7 @@ body {
   height: 100%;
   z-index: 1; /* Garante que a imagem fique atrás */
   display: flex;
-  justify-content: flex-end; /* Alinha a imagem para a direita */
+  justify-content: center; /* Alinha a imagem para a direita */
   align-items: center;
 }
 .banner-img img {
@@ -206,7 +206,7 @@ body {
   font-weight: 700;
 }
 .grid-produtos {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
@@ -248,6 +248,26 @@ body {
   font-weight: 700; 
   color:#6a2a32; /* Cor do preço */
   font-size: 17px;
+}
+/* Container do topo do card precisa ser relativo para a tarja se posicionar nele */
+.card-top {
+  position: relative;
+}
+
+/* Estilo da Tarja */
+.tarja-estoque {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  background-color: rgba(106, 42, 50, 0.9); /* Cor bordô com transparência */
+  color: white;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 0 4px 4px 0;
+  z-index: 5;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 }
 .card .btn-add {
   background: #6a2a32; /* Cor do botão */
@@ -553,4 +573,70 @@ body {
   .btn-comprar-modal { padding: 12px 20px; font-size: 16px; }
   .product-thumbnails img { width: 70px; height: 70px; }
 
+}
+
+/* --- SWATCHES NA GRADE (VISUAL APENAS) --- */
+.card-swatches {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0;
+  height: 20px; /* Altura fixa para alinhar */
+}
+
+.swatch-grid {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  display: inline-block;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.swatch-plus {
+  font-size: 11px;
+  color: #666;
+  background: #f0f0f0;
+  border-radius: 8px;
+  padding: 1px 4px;
+  margin-left: 2px;
+}
+
+/* --- SELETORES NO MODAL --- */
+.modal-selectors {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.selector-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.selector-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+}
+
+.modal-select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  color: #333;
+  background-color: white;
+  cursor: pointer;
+  outline: none;
+}
+
+.modal-select:focus {
+  border-color: #4b0f1f;
 }
